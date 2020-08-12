@@ -113,7 +113,7 @@ NSString * generateFilePath(NSString * ext, NSString * outputPath, NSString * fi
     if ([fileName length] == 0) {
         name = [[NSUUID UUID] UUIDString];
     } else {
-        name = filename;
+        name = fileName;
     }
 
     NSString* fullName = [NSString stringWithFormat:@"%@.%@", name, ext];
