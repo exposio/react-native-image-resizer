@@ -85,7 +85,7 @@ bool saveImage(NSString * fullPath, UIImage * image, NSString * format, float qu
     }
 }
 
-NSString * generateFilePath(NSString * ext, NSString * outputPath)
+NSString * generateFilePath(NSString * ext, NSString * outputPath, NSString * fileName)
 {
     NSString* directory;
 
@@ -109,7 +109,13 @@ NSString * generateFilePath(NSString * ext, NSString * outputPath)
         }
     }
 
-    NSString* name = [[NSUUID UUID] UUIDString];
+    NSString* name;
+    if ([fileName length] == 0) {
+        name = [[NSUUID UUID] UUIDString];
+    } else {
+        name = filename;
+    }
+
     NSString* fullName = [NSString stringWithFormat:@"%@.%@", name, ext];
     NSString* fullPath = [directory stringByAppendingPathComponent:fullName];
 
@@ -348,6 +354,7 @@ RCT_EXPORT_METHOD(createResizedImage:(NSString *)path
                   quality:(float)quality
                   rotation:(float)rotation
                   outputPath:(NSString *)outputPath
+                  fileName:(NSString *)fileName
                   keepMeta:(BOOL)keepMeta
                   callback:(RCTResponseSenderBlock)callback)
 {
@@ -362,7 +369,7 @@ RCT_EXPORT_METHOD(createResizedImage:(NSString *)path
 
         NSString* fullPath;
         @try {
-            fullPath = generateFilePath(extension, outputPath);
+            fullPath = generateFilePath(extension, outputPath, fileName);
         } @catch (NSException *exception) {
             callback(@[@"Invalid output path.", @""]);
             return;

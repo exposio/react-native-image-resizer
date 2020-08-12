@@ -14,6 +14,7 @@ if (Platform.OS === 'android') {
       quality,
       rotation = 0,
       outputPath,
+      fileName,
       keepMeta = false
     ) => {
       return new Promise((resolve, reject) => {
@@ -25,6 +26,7 @@ if (Platform.OS === 'android') {
           quality,
           rotation,
           outputPath,
+          fileName,
           keepMeta,
           resolve,
           reject
@@ -61,6 +63,7 @@ if (Platform.OS === 'android') {
           quality,
           rotation,
           outputPath,
+          fileName,
           keepMeta,
           (err, response) => {
             if (err) {

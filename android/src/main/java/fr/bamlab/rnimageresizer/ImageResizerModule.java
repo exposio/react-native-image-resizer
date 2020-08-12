@@ -74,7 +74,7 @@ public class ImageResizerModule extends ReactContextBaseJavaModule {
     }
 
     private void createResizedImageWithExceptions(String imagePath, int newWidth, int newHeight,
-                                           String compressFormatString, int quality, int rotation, String outputPath,
+                                           String compressFormatString, int quality, int rotation, String outputPath, String fileName,
                                            final boolean keepMeta,
                                            final Callback successCb, final Callback failureCb) throws IOException {
 
@@ -93,7 +93,12 @@ public class ImageResizerModule extends ReactContextBaseJavaModule {
             path = new File(outputPath);
         }
 
-        File resizedImage = ImageResizer.saveImage(scaledImage, path, Long.toString(new Date().getTime()), compressFormat, quality);
+        String name = Long.toString(new Date().getTime());
+        if (fileName != null){
+            name = fileName;
+        }
+
+        File resizedImage = ImageResizer.saveImage(scaledImage, path, name, compressFormat, quality);
 
         // If resizedImagePath is empty and this wasn't caught earlier, throw.
         if (resizedImage.isFile()) {
