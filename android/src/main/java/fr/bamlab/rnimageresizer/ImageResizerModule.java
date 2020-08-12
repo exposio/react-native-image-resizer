@@ -46,25 +46,20 @@ public class ImageResizerModule extends ReactContextBaseJavaModule {
         new GuardedAsyncTask<Void, Void>(getReactApplicationContext()) {
             @Override
             protected void doInBackgroundGuarded(Void... params) {
-                try {
-                    //nothing
-                }
-                catch (IOException e) {
-                    failureCb.invoke(e.getMessage());
-                }
+                copyExifWithExceptions(imageSrc, imageDest, successCb, failureCb);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @ReactMethod
-    public void createResizedImage(final String imagePath, final int newWidth, final int newHeight, final String compressFormat, final int quality, final int rotation, final String outputPath, final boolean keepMeta, final Callback successCb, final Callback failureCb) {
+    public void createResizedImage(final String imagePath, final int newWidth, final int newHeight, final String compressFormat, final int quality, final int rotation, final String outputPath, final String fileName, final boolean keepMeta, final Callback successCb, final Callback failureCb) {
 
         // Run in guarded async task to prevent blocking the React bridge
         new GuardedAsyncTask<Void, Void>(getReactApplicationContext()) {
             @Override
             protected void doInBackgroundGuarded(Void... params) {
                 try {
-                    createResizedImageWithExceptions(imagePath, newWidth, newHeight, compressFormat, quality, rotation, outputPath, keepMeta, successCb, failureCb);
+                    createResizedImageWithExceptions(imagePath, newWidth, newHeight, compressFormat, quality, rotation, outputPath, fileName, keepMeta, successCb, failureCb);
                 }
                 catch (IOException e) {
                     failureCb.invoke(e.getMessage());
@@ -129,5 +124,13 @@ public class ImageResizerModule extends ReactContextBaseJavaModule {
 
         // Clean up bitmap
         scaledImage.recycle();
+    }
+
+    private void copyExifWithExceptions(final String imageSrc, final String imageDest, final Callback successCb, final Callback failureCb) {
+        if (ImageResizer.copyExif(this.context, Uri.parse(imageSrc), imageDest)) {
+            successCb.invoke(imageDest);
+        } else {
+            failureCb.invoke("Could not copy the exif");
+        }
     }
 }
