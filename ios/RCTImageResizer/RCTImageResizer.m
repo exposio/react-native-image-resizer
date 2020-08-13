@@ -393,7 +393,7 @@ RCT_EXPORT_METHOD(copyExif:(NSString *)imageSrc
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
-        metadata = getImageMeta(imageSrc);
+        NSMutableDictionary * metadata = getImageMeta(imageSrc);
 
         if (metadata == nil){
             callback(@[@"Can't retrieve the metadata from the path.", @""]);
