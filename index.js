@@ -1,10 +1,11 @@
 import { NativeModules, Platform } from 'react-native';
 
-const ImageResizerAndroid = NativeModules.ImageResizerAndroid;
 
 let exportObject = {};
 
 if (Platform.OS === 'android') {
+  const ImageResizerAndroid = NativeModules.ImageResizerAndroid;
+
   exportObject = {
     createResizedImage: (
       imagePath,
@@ -13,8 +14,8 @@ if (Platform.OS === 'android') {
       compressFormat,
       quality,
       rotation = 0,
-      outputPath,
-      fileName,
+      outputPath = "",
+      fileName = "",
       keepMeta = false
     ) => {
       return new Promise((resolve, reject) => {
