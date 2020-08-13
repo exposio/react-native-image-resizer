@@ -14,8 +14,8 @@ if (Platform.OS === 'android') {
       compressFormat,
       quality,
       rotation = 0,
-      outputPath = "",
-      fileName = "",
+      outputPath,
+      fileName,
       keepMeta = false
     ) => {
       return new Promise((resolve, reject) => {
@@ -84,6 +84,8 @@ if (Platform.OS === 'android') {
         NativeModules.ImageResizer.copyExif(
           imageSrc,
           imageDest,
+          resolve,
+          reject,
           (err, response) => {
             if (err) {
               return reject(err);
