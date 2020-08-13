@@ -416,10 +416,10 @@ RCT_EXPORT_METHOD(copyExif:(NSString *)imageSrc
                 // write final image data with metadata to our destination
                 if (CGImageDestinationFinalize(destination)){
                     NSFileManager* fileManager = [NSFileManager defaultManager];
-                    return [fileManager createFileAtPath:fullPath contents:destData attributes:nil];
+                    return [fileManager createFileAtPath:imageDest contents:destData attributes:nil];
                 }
                 else{
-                    return NO;
+                    return;
                 }
             }
             @finally{

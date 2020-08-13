@@ -84,7 +84,12 @@ if (Platform.OS === 'android') {
           imageSrc,
           imageDest,
           resolve,
-          reject
+          reject,
+          (err, response) => {
+            if (err) {
+              return reject(err);
+            }
+          }
         );
       });
     },
