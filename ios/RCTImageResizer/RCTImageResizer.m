@@ -433,7 +433,8 @@ RCT_EXPORT_METHOD(copyExif:(NSString *)imageSrc
         }
         }];
 
-        return;
+        NSDictionary *response = @{@"path": imageDest };
+        callback(@[[NSNull null], response]);
     });
 }
 
