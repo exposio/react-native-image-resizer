@@ -69,7 +69,7 @@ public class ImageResizerModule extends ReactContextBaseJavaModule {
     }
 
     private void createResizedImageWithExceptions(String imagePath, int newWidth, int newHeight,
-                                           String compressFormatString, int quality, int rotation, String outputPath, String fileName,
+                                           String compressFormatString, int quality, int rotation, String outputPath, final String fileName,
                                            final boolean keepMeta,
                                            final Callback successCb, final Callback failureCb) throws IOException {
 

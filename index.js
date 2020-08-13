@@ -1,10 +1,11 @@
 import { NativeModules, Platform } from 'react-native';
 
-const ImageResizerAndroid = NativeModules.ImageResizerAndroid;
 
 let exportObject = {};
 
 if (Platform.OS === 'android') {
+  const ImageResizerAndroid = NativeModules.ImageResizerAndroid;
+
   exportObject = {
     createResizedImage: (
       imagePath,
@@ -83,6 +84,8 @@ if (Platform.OS === 'android') {
         NativeModules.ImageResizer.copyExif(
           imageSrc,
           imageDest,
+          resolve,
+          reject,
           (err, response) => {
             if (err) {
               return reject(err);
