@@ -417,9 +417,9 @@ RCT_EXPORT_METHOD(copyExif:(NSString *)imageSrc
                 if (CGImageDestinationFinalize(destination)){
                     NSFileManager* fileManager = [NSFileManager defaultManager];
                     [fileManager createFileAtPath:imageDest contents:destData attributes:nil];
-                    return;
                 }
                 else{
+                    callback(@[@"Failed to write image at specified path.", @""]);
                     return;
                 }
             }
