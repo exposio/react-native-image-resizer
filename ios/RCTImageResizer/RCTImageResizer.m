@@ -392,7 +392,46 @@ RCT_EXPORT_METHOD(copyExif:(NSString *)imageSrc
                   callback:(RCTResponseSenderBlock)callback)
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        callback(@[@"Can't retrieve the file from the path.", @""]);
+
+        metadata = getImageMeta(imageSrc);
+
+        if (metadata == nil){
+            callback(@[@"Can't retrieve the metadata from the path.", @""]);
+            return;
+        }
+
+        [self.bridge moduleForName:@"ImageLoader" lazilyLoadIfNecessary:YES] loadImageWithURLRequest:[RCTConvert NSURLRequest:imageDest] callback:^(NSError *error, UIImage *image) {
+            if (error) {
+                callback(@[@"Can't retrieve the file from the path.", @""]);
+                return;
+            }
+
+            NSMutableData * destData = [NSMutableData data];
+
+            CGImageDestinationRef destination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)destData, kUTTypeJPEG, 1, NULL);
+
+            @try{
+                CGImageDestinationAddImage(destination, image.CGImage, (__bridge CFDictionaryRef) metadata);
+
+                // write final image data with metadata to our destination
+                if (CGImageDestinationFinalize(destination)){
+                    NSFileManager* fileManager = [NSFileManager defaultManager];
+                    return [fileManager createFileAtPath:fullPath contents:destData attributes:nil];
+                }
+                else{
+                    return NO;
+                }
+            }
+            @finally{
+                @try{
+                    CFRelease(destination);
+                }
+                @catch(NSException *exception){
+                    NSLog(@"Failed to release CGImageDestinationRef: %@", exception);
+                }
+        }
+        }];
+
         return;
     });
 }

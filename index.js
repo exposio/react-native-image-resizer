@@ -80,7 +80,7 @@ if (Platform.OS === 'android') {
       imageDest
       ) => {
       return new Promise((resolve, reject) => {
-        ImageResizerAndroid.copyExif(
+        NativeModules.copyExif(
           imageSrc,
           imageDest,
           resolve,
