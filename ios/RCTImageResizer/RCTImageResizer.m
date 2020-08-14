@@ -400,7 +400,9 @@ RCT_EXPORT_METHOD(copyExif:(NSString *)imageSrc
             return;
         }
 
-        [[self.bridge moduleForName:@"ImageLoader" lazilyLoadIfNecessary:YES] loadImageWithURLRequest:[RCTConvert NSURLRequest:imageDest] callback:^(NSError *error, UIImage *image) {
+        NSURL *fileUrl = [[NSURL alloc] initFileURLWithPath:imageDest];
+        
+        [[self.bridge moduleForName:@"ImageLoader" lazilyLoadIfNecessary:YES] loadImageWithURLRequest:[[NSURLRequest alloc] initWithURL:fileUrl] callback:^(NSError *error, UIImage *image) {
             if (error) {
                 callback(@[@"Can't retrieve the file from the path.", @""]);
                 return;
