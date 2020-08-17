@@ -432,11 +432,11 @@ RCT_EXPORT_METHOD(copyExif:(NSString *)imageSrc
                 @catch(NSException *exception){
                     NSLog(@"Failed to release CGImageDestinationRef: %@", exception);
                 }
-        }
+                
+                NSDictionary *response = @{@"path": imageDest };
+                callback(@[[NSNull null], response]);
+            }
         }];
-
-        NSDictionary *response = @{@"path": imageDest };
-        callback(@[[NSNull null], response]);
     });
 }
 
