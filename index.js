@@ -88,6 +88,8 @@ if (Platform.OS === 'android') {
             if (err) {
               return reject(err);
             }
+
+            resolve(response);
           }
         );
       });
