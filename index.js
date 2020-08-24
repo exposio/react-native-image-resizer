@@ -14,8 +14,8 @@ if (Platform.OS === 'android') {
       compressFormat,
       quality,
       rotation = 0,
-      outputPath,
-      fileName,
+      outputPath= "",
+      fileName = "",
       keepMeta = false
     ) => {
       return new Promise((resolve, reject) => {
