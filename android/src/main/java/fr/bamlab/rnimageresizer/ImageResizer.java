@@ -183,7 +183,7 @@ public class ImageResizer {
             throw new IOException("The bitmap couldn't be resized");
         }
 
-        File newFile = new File(saveDirectory, fileName + "." + compressFormat.name());
+        File newFile = new File(saveDirectory, fileName + "." + compressFormat.name().replace("JPEG", "jpg"));
         if(!newFile.createNewFile()) {
             throw new IOException("The file already exists");
         }
