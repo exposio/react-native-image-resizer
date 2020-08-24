@@ -84,12 +84,12 @@ if (Platform.OS === 'android') {
         NativeModules.ImageResizer.copyExif(
           imageSrc,
           imageDest,
-          resolve,
-          reject,
           (err, response) => {
             if (err) {
               return reject(err);
             }
+
+            resolve(response);
           }
         );
       });
