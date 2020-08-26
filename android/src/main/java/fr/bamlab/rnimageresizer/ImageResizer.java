@@ -144,8 +144,8 @@ public class ImageResizer {
 
             float ratio = Math.min((float)maxWidth / width, (float)maxHeight / height);
 
-            int finalWidth = (((int)(width * ratio) )*2)/2;
-            int finalHeight = (((int)(height * ratio))*2)/2;
+            int finalWidth = (((int)(width * ratio) )/2)*2;
+            int finalHeight = (((int)(height * ratio))/2)*2;
             
             try {
                 newImage = Bitmap.createScaledBitmap(image, finalWidth, finalHeight, true);
