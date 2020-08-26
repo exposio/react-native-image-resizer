@@ -200,7 +200,9 @@ UIImage* scaleImage (UIImage* image, CGSize toSize)
 
     // using this instead of ImageHelpers allows us to consider
     // rotation variations
-    CGSize newSize = CGSizeMake(roundf(imageSize.width * scale), roundf(imageSize.height * scale));
+    float newWidth = (int)(roundf(imageSize.width * scale) / 2) * 2;
+    float newHeight = (int)(roundf(imageSize.height * scale) / 2) * 2;
+    CGSize newSize = CGSizeMake(newWidth, newHeight);
 
 
     UIGraphicsBeginImageContextWithOptions(newSize, NO, 1.0);
